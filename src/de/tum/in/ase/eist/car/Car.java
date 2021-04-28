@@ -181,6 +181,8 @@ public abstract class Car {
 		this.iconLocation = iconLocation;
 	}
 
+	protected abstract void refreshIconInfection(int infectionLevel);
+
 	public Point2D getPosition() {
 		return this.position;
 	}

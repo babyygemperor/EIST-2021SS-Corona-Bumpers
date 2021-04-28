@@ -17,4 +17,27 @@ public class FastCar extends Car {
 		setIconLocation(FAST_CAR_IMAGE_FILE);
 	}
 
+	@Override
+	protected void refreshIconInfection(int infectionLevel) {
+		if (infectionLevel > 200000) {
+
+		} else if (infectionLevel > 400000) {
+
+		} else if (infectionLevel > 600000) {
+
+		} else if (infectionLevel > 800000) {
+
+		} else if (infectionLevel > 1000000) {
+
+		} else if (infectionLevel > 1200000) {
+
+		} else if (infectionLevel > 1400000) {
+
+		} else if (infectionLevel > 1600000) {
+
+		} else if (infectionLevel > 1800000) {
+
+		}
+	}
+
 }
