@@ -14,6 +14,9 @@ public class AudioPlayer implements AudioPlayerInterface {
 	private static final String BACKGROUND_MUSIC_FILE = "Music.wav";
 	private static final String CRASH_SOUND_FILE = "Crash.wav";
 
+	//NOTE: THIS AUDIO TRACK IS TAKEN FROM PLAGUES.INC, I DO NOT OWN THIS TRACK
+	private static final String INFECTED_SOUND_FILE = "infected.wav";
+
 	private static final double CRASH_SOUND_VOLUME = 0.5;
 
 	private final MediaPlayer musicPlayer;

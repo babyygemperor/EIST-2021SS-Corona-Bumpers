@@ -223,6 +223,14 @@ public class GameBoard {
 		if (player.getCar().isCrunched())
 			gameOutcome = GameOutcome.LOST;
 
+		player.getCar().setViralLoad(player.getCar().getViralLoad() * 0.999);
+
+		if (player.getCar().getViralLoad() > 300000.0)
+			gameOutcome = GameOutcome.LOST_COVID;
+
+		if (allCarsCrunched())
+			gameOutcome = GameOutcome.WON;
+
 		for (Car car : cars) {
 
 			if (car.isCrunched()) {
@@ -231,20 +239,19 @@ public class GameBoard {
 			}
 
 			if (!(car instanceof CovidCar)) {
-				if (car.getViralLoad() > 0.0) {
+				if (car.isWearingMask())
+					car.setViralLoad(car.getViralLoad() * 0.85);
+				else
 					car.setViralLoad(car.getViralLoad() * 0.98);
-				}
-				if (car.getViralLoad() > 20000000.0) {
+				if (car.getViralLoad() > 3000000.0) {
 					this.loserCars.add(car);
 					printDeath(car);
 					car.crunch();
 				}
-				if (car.getViralLoad() < 0)
-					car.setViralLoad(0);
 			} else {
-				car.setViralLoad(car.getViralLoad() * 0.95);
+				car.setViralLoad(car.getViralLoad() * 0.99);
 
-				if (car.getViralLoad() < 5000.0) {
+				if (car.getViralLoad() < 500.0) {
 					car.crunch();
 
 					this.loserCars.add(car);
@@ -298,6 +305,12 @@ public class GameBoard {
 				Car winner = collision.evaluate();
 				Car loser = collision.evaluateLoser();
 
+				if (winner == player.getCar()) {
+					player.getCar().setViralLoad(loser.getViralLoad()/20 + player.getCar().getViralLoad());
+				} else if (loser == player.getCar()) {
+					player.getCar().setViralLoad(winner.getViralLoad()/20 + player.getCar().getViralLoad());
+				}
+
 				if (winner != null)
 					printInfection(winner, loser);
 
@@ -305,6 +318,15 @@ public class GameBoard {
 					gameOutcome = GameOutcome.WON;
 			}
 		}
+	}
+
+	private boolean allCarsCrunched() {
+		for (Car car: cars) {
+			if (!(car instanceof CovidCar) && !car.isCrunched())
+				return false;
+		}
+
+		return true;
 	}
 
 	/**
@@ -343,14 +365,14 @@ public class GameBoard {
 
 	private void printInfection(Car winner, Car loser) {
 		if (winner == player.getCar())
-			System.out.println("NEW INFECTIONS!!!!\tPlayerCar with a viral load of " + winner.getViralLoad()
-					+ " and " + loser.getClass().getSimpleName() + " with a viral load of " + loser.getViralLoad() + " were in contact!!!");
+			System.out.println("\tPlayerCar with a viral load of " + (double)Math.round(winner.getViralLoad() * 100d) / 100d
+					+ " and " + (double)Math.round(loser.getViralLoad() * 100d) / 100d + " with a viral load of " + loser.getViralLoad() + " were in contact!!!");
 		else if (loser == player.getCar())
-			System.out.println("NEW INFECTIONS!!!!\t" + winner.getClass().getSimpleName() + " with a viral load of " + winner.getViralLoad()
-					+ " and PlayerCar with a viral load of " + loser.getViralLoad() + " were in contact!!!");
+			System.out.println("\t" + winner.getClass().getSimpleName() + " with a viral load of " + (double)Math.round(winner.getViralLoad() * 100d) / 100d
+					+ " and PlayerCar with a viral load of " + (double)Math.round(loser.getViralLoad() * 100d) / 100d + " were in contact!!!");
 		else
-			System.out.println("NEW INFECTIONS!!!!\t" + winner.getClass().getSimpleName() + " with a viral load of " + winner.getViralLoad()
-				+ " and " + loser.getClass().getSimpleName() + " with a viral load of " + loser.getViralLoad() + " were in contact!!!");
+			System.out.println("\t" + winner.getClass().getSimpleName() + " with a viral load of " + (double)Math.round(winner.getViralLoad() * 100d) / 100d
+				+ " and " + loser.getClass().getSimpleName() + " with a viral load of " + (double)Math.round(loser.getViralLoad() * 100d) / 100d + " were in contact!!!");
 	}
 
 }

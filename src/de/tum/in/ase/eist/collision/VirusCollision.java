@@ -1,9 +1,6 @@
 package de.tum.in.ase.eist.collision;
 
 import de.tum.in.ase.eist.car.Car;
-import de.tum.in.ase.eist.car.CovidCar;
-
-import java.util.Random;
 
 public class VirusCollision extends Collision {
 
@@ -19,8 +16,8 @@ public class VirusCollision extends Collision {
         if (car1ViralLoad + car2ViralLoad == 0.0)
             return null;
 
-        this.car1.setViralLoad(car1ViralLoad + car2ViralLoad/5);
-        this.car2.setViralLoad(car1ViralLoad + car2ViralLoad/5);
+        this.car1.setViralLoad(car1ViralLoad + car2ViralLoad/20);
+        this.car2.setViralLoad(car1ViralLoad + car2ViralLoad/20);
 
         if (car1ViralLoad > car2ViralLoad) {
             return this.car1;

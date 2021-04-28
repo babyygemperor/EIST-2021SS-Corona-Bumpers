@@ -142,12 +142,17 @@ public class GameBoardUI extends Canvas {
 		if (gameBoard.isRunning()) {
 			// updates car positions and re-renders graphics
 			this.gameBoard.update();
+
+			this.gameToolBar.refreshText(this);
 			// when this.gameBoard.getOutcome() is OPEN, do nothing
 			if (this.gameBoard.getGameOutcome() == GameOutcome.LOST) {
 				showAsyncAlert("Oh.. you lost.");
 				this.stopGame();
 			} else if (this.gameBoard.getGameOutcome() == GameOutcome.WON) {
 				showAsyncAlert("Congratulations! You won!!");
+				this.stopGame();
+			} else if (this.gameBoard.getGameOutcome() == GameOutcome.LOST_COVID) {
+				showAsyncAlert("YOU DIED OF COVID 19!!! Viral load : " + (double)Math.round(gameBoard.getPlayerCar().getViralLoad() * 100d) / 100d);
 				this.stopGame();
 			}
 			paint();

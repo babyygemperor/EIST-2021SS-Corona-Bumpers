@@ -2,6 +2,7 @@ package de.tum.in.ase.eist.gameview;
 
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.text.Text;
 
 import java.util.Optional;
 
@@ -11,18 +12,25 @@ import java.util.Optional;
 public class GameToolBar extends ToolBar {
 	private final Button start;
 	private final Button stop;
+	private final Text textField;
 
 	public GameToolBar() {
 		this.start = new Button("Start");
 		this.stop = new Button("Stop");
+		this.textField = new Text("Viral Load on you = 0");
 		// the game is stopped initially
 		updateToolBarStatus(false);
-		getItems().addAll(this.start, new Separator(), this.stop);
+		getItems().addAll(this.start, new Separator(), this.stop, new Separator(), this.textField);
 	}
 
 	/**
 	 * Initializes the actions of the toolbar buttons.
 	 */
+
+	public void refreshText(GameBoardUI gameBoardUI) {
+		this.textField.setText("Viral Load on you = " + (double)Math.round(gameBoardUI.getGameBoard().getPlayerCar().getViralLoad() * 100d) / 100d);
+	}
+
 	public void initializeActions(GameBoardUI gameBoardUI) {
 		this.start.setOnAction(event -> gameBoardUI.startGame());
 
@@ -48,6 +56,7 @@ public class GameToolBar extends ToolBar {
 				gameBoardUI.startGame();
 			}
 		});
+
 	}
 
 	/**
