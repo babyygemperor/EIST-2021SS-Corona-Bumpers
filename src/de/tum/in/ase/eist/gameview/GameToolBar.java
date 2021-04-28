@@ -1,5 +1,6 @@
 package de.tum.in.ase.eist.gameview;
 
+import de.tum.in.ase.eist.car.CovidCar;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.text.Text;
@@ -13,14 +14,16 @@ public class GameToolBar extends ToolBar {
 	private final Button start;
 	private final Button stop;
 	private final Text textField;
+	private final Text virusViralLoad;
 
 	public GameToolBar() {
 		this.start = new Button("Start");
 		this.stop = new Button("Stop");
 		this.textField = new Text("Viral Load on you = 0");
+		this.virusViralLoad = new Text("Virus potency = 0");
 		// the game is stopped initially
 		updateToolBarStatus(false);
-		getItems().addAll(this.start, new Separator(), this.stop, new Separator(), this.textField);
+		getItems().addAll(this.start, new Separator(), this.stop, new Separator(), this.textField, new Separator(), this.virusViralLoad);
 	}
 
 	/**
@@ -29,6 +32,7 @@ public class GameToolBar extends ToolBar {
 
 	public void refreshText(GameBoardUI gameBoardUI) {
 		this.textField.setText("Viral Load on you = " + (double)Math.round(gameBoardUI.getGameBoard().getPlayerCar().getViralLoad() * 100d) / 100d);
+		this.virusViralLoad.setText("Virus potency =  " + (double)Math.round(gameBoardUI.getGameBoard().getCovidCar().getViralLoad() * 100d) / 100d);
 	}
 
 	public void initializeActions(GameBoardUI gameBoardUI) {

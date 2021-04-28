@@ -185,6 +185,8 @@ public class GameBoardUI extends Canvas {
 		paintCar(this.gameBoard.getPlayerCar());
 	}
 
+
+
 	/**
 	 * Show image of a car at the current position of the car.
 	 *

@@ -5,7 +5,7 @@ import de.tum.in.ase.eist.Dimension2D;
 public class CovidCar extends Car {
 
     //The coronavirus.png has been excessively squished to counteract the prebuilt algorithm
-    private static String COVID_CAR_IMAGE_FILE = "coronavirus.png";
+    private static final String COVID_CAR_IMAGE_FILE = "coronavirus.png";
 
     private static final int MIN_SPEED_COVID_CAR = 6;
     private static final int MAX_SPEED_COVID_CAR = 9;

@@ -30,6 +30,7 @@ public class GameBoard {
 	 * The player object with player's car.
 	 */
 	private final Player player;
+	private final CovidCar covidCar;
 
 	/**
 	 * AudioPlayer responsible for handling music and game sounds.
@@ -66,6 +67,16 @@ public class GameBoard {
 		FastCar playerCar = new FastCar(size);
 		this.player = new Player(playerCar);
 		this.player.setup();
+
+
+		this.covidCar = new CovidCar(this.size);
+		this.covidCar.setInfected(true);
+		this.covidCar.setWearingMask(false);
+
+		this.covidCar.setViralLoad(new Random().nextInt(690420) + 100000.0);
+
+		this.cars.add(covidCar);
+
 		createCars();
 	}
 
@@ -79,7 +90,6 @@ public class GameBoard {
 		Random randomGenerator = new Random();
 		SlowCar slowCar;
 		FastCar fastCar;
-		CovidCar covidCar;
 
 		for (int i = 0; i < NUMBER_OF_SLOW_CARS; i++) {
 			random = randomGenerator.nextInt(100);
@@ -104,14 +114,6 @@ public class GameBoard {
 			fastCar.setViralLoad(0.0);
 			this.cars.add(fastCar);
 		}
-
-		covidCar = new CovidCar(this.size);
-		covidCar.setInfected(true);
-		covidCar.setWearingMask(false);
-
-		covidCar.setViralLoad(new Random().nextInt(690420) + 100000.0);
-
-		this.cars.add(covidCar);
 	}
 
 	public Dimension2D getSize() {
@@ -318,6 +320,10 @@ public class GameBoard {
 					gameOutcome = GameOutcome.WON;
 			}
 		}
+	}
+
+	public CovidCar getCovidCar() {
+		return covidCar;
 	}
 
 	private boolean allCarsCrunched() {
