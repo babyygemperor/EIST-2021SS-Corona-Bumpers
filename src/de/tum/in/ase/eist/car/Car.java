@@ -4,6 +4,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import de.tum.in.ase.eist.Dimension2D;
 import de.tum.in.ase.eist.Point2D;
+import jdk.jfr.Unsigned;
 
 /**
  * Abstract class for cars. Objects for this class cannot be instantiated.
@@ -25,7 +26,8 @@ public abstract class Car {
 	private boolean isInfected;
 	private boolean isWearingMask;
 
-	private int viralLoad;
+	@Unsigned
+	private double viralLoad;
 
 	private Point2D position;
 	/**
@@ -266,11 +268,11 @@ public abstract class Car {
 		isWearingMask = wearingMask;
 	}
 
-	public int getViralLoad() {
+	public double getViralLoad() {
 		return viralLoad;
 	}
 
-	public void setViralLoad(int viralLoad) {
+	public void setViralLoad(double viralLoad) {
 		this.viralLoad = viralLoad;
 	}
 }

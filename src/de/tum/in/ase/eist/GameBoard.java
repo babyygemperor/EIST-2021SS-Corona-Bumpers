@@ -101,7 +101,7 @@ public class GameBoard {
 			if (random < 45)
 				fastCar.setWearingMask(true);
 
-			fastCar.setViralLoad(0);
+			fastCar.setViralLoad(0.0);
 			this.cars.add(fastCar);
 		}
 
@@ -109,7 +109,7 @@ public class GameBoard {
 		covidCar.setInfected(true);
 		covidCar.setWearingMask(false);
 
-		covidCar.setViralLoad(new Random().nextInt(690420) + 100000);
+		covidCar.setViralLoad(new Random().nextInt(690420) + 100000.0);
 
 		this.cars.add(covidCar);
 	}
@@ -231,21 +231,20 @@ public class GameBoard {
 			}
 
 			if (!(car instanceof CovidCar)) {
-				if (car.getViralLoad() > 0) {
-					car.setViralLoad(car.getViralLoad() - 2000);
-					if (car.getViralLoad() < 0)
-						car.setViralLoad(0);
+				if (car.getViralLoad() > 0.0) {
+					car.setViralLoad(car.getViralLoad() * 0.98);
 				}
-
-				if (car.getViralLoad() > 2000000) {
+				if (car.getViralLoad() > 20000000.0) {
 					this.loserCars.add(car);
 					printDeath(car);
 					car.crunch();
 				}
+				if (car.getViralLoad() < 0)
+					car.setViralLoad(0);
 			} else {
-				car.setViralLoad(car.getViralLoad() - 1000);
+				car.setViralLoad(car.getViralLoad() * 0.95);
 
-				if (car.getViralLoad() < 5000) {
+				if (car.getViralLoad() < 5000.0) {
 					car.crunch();
 
 					this.loserCars.add(car);
@@ -258,6 +257,23 @@ public class GameBoard {
 			 * the new Collision package. Create a new collision object and check if the
 			 * collision between player car and autonomous car evaluates as expected
 			 */
+
+			for (Car car2 : cars) {
+				if (car != car2 && !car.isCrunched() && !car2.isCrunched()) {
+					Collision virusCollision = new VirusCollision(car, car2);
+
+					if (virusCollision.isCrash()) {
+						Car winner = virusCollision.evaluate();
+						Car loser = virusCollision.evaluateLoser();
+
+						if (winner != null)
+							printInfection(winner, loser);
+
+						if (isWinner())
+							gameOutcome = GameOutcome.WON;
+					}
+				}
+			}
 
 			Collision collision = new Collision(player.getCar(), car);
 
@@ -282,7 +298,11 @@ public class GameBoard {
 				Car winner = collision.evaluate();
 				Car loser = collision.evaluateLoser();
 
-				printInfection(winner, loser);
+				if (winner != null)
+					printInfection(winner, loser);
+
+				if (isWinner())
+					gameOutcome = GameOutcome.WON;
 			}
 		}
 	}
@@ -322,13 +342,15 @@ public class GameBoard {
 	}
 
 	private void printInfection(Car winner, Car loser) {
-		if (loser == this.player.getCar()) {
-			System.out.println("The player got infected with COVID-19 from " + winner.getClass().getSimpleName()
-					+ ", current viral load : " + loser.getViralLoad());
-		} else if (winner != null && loser != null) {
-			System.out.println(loser.getClass().getSimpleName() + " got infected from " + winner.getClass().getSimpleName()
-					+ ", current viral load : " + loser.getViralLoad());
-		} else
-			System.err.println("Something went wrong");
+		if (winner == player.getCar())
+			System.out.println("NEW INFECTIONS!!!!\tPlayerCar with a viral load of " + winner.getViralLoad()
+					+ " and " + loser.getClass().getSimpleName() + " with a viral load of " + loser.getViralLoad() + " were in contact!!!");
+		else if (loser == player.getCar())
+			System.out.println("NEW INFECTIONS!!!!\t" + winner.getClass().getSimpleName() + " with a viral load of " + winner.getViralLoad()
+					+ " and PlayerCar with a viral load of " + loser.getViralLoad() + " were in contact!!!");
+		else
+			System.out.println("NEW INFECTIONS!!!!\t" + winner.getClass().getSimpleName() + " with a viral load of " + winner.getViralLoad()
+				+ " and " + loser.getClass().getSimpleName() + " with a viral load of " + loser.getViralLoad() + " were in contact!!!");
 	}
+
 }

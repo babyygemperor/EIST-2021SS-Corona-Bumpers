@@ -13,46 +13,20 @@ public class VirusCollision extends Collision {
 
     @Override
     public Car evaluate() {
-        int randomInt;
-        double randomDouble;
+        double car1ViralLoad = this.car1.getViralLoad();
+        double car2ViralLoad = this.car1.getViralLoad();
 
-        if (this.car1 instanceof CovidCar) {
-            if (this.car2.isWearingMask()) {
-                randomInt = new Random().nextInt(100);
-                randomDouble = randomInt/100.0;
-                if (randomInt < 69) {
-                    this.car2.setViralLoad((int) ((this.car2.getViralLoad() + this.car1.getViralLoad()) * randomDouble));
-                    this.car1.setViralLoad((int) (this.car1.getViralLoad() * 1.1));
-                    return this.car1;
-                } else {
-                    return this.car2;
-                }
-            } else {
-                this.car2.setViralLoad(this.car2.getViralLoad() + this.car1.getViralLoad());
-                this.car1.setViralLoad((int) (this.car1.getViralLoad() * 1.1));
-                return this.car1;
-            }
-        } else {
-            if (this.car1.isWearingMask()) {
-                randomInt = new Random().nextInt(100) + 30;
-                randomDouble = randomInt/100.0;
-                if (randomInt < 69) {
-                    this.car1.setViralLoad((int) ((this.car1.getViralLoad() + this.car2.getViralLoad()) * randomDouble));
-                    this.car2.setViralLoad((int) (this.car2.getViralLoad() * 1.1));
-                    return this.car2;
-                } else {
-                    return this.car1;
-                }
-            } else {
-                if (this.car2.isInfected()) {
-                    this.car1.setViralLoad(this.car1.getViralLoad() + this.car2.getViralLoad());
-                    this.car2.setViralLoad((int) (this.car2.getViralLoad() * 1.1));
-                    return this.car2;
-                } else {
-                    return this.car1;
-                }
-            }
+        if (car1ViralLoad + car2ViralLoad == 0.0)
+            return null;
+
+        this.car1.setViralLoad(car1ViralLoad + car2ViralLoad/5);
+        this.car2.setViralLoad(car1ViralLoad + car2ViralLoad/5);
+
+        if (car1ViralLoad > car2ViralLoad) {
+            return this.car1;
         }
 
+        return this.car2;
     }
+
 }
