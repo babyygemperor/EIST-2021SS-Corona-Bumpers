@@ -21,6 +21,12 @@ public abstract class Car {
 	private int speed;
 	private boolean crunched;
 
+	//To keep a track of infections
+	private boolean isInfected;
+	private boolean isWearingMask;
+
+	private int viralLoad;
+
 	private Point2D position;
 	/**
 	 * The direction as degree within a circle, a value between 0 (inclusive) and
@@ -242,5 +248,29 @@ public abstract class Car {
 	 */
 	protected static double calculateRandomDouble(double minValue, double maxValue) {
 		return ThreadLocalRandom.current().nextDouble(minValue, maxValue);
+	}
+
+	public boolean isInfected() {
+		return isInfected;
+	}
+
+	public boolean isWearingMask() {
+		return isWearingMask;
+	}
+
+	public void setInfected(boolean infected) {
+		isInfected = infected;
+	}
+
+	public void setWearingMask(boolean wearingMask) {
+		isWearingMask = wearingMask;
+	}
+
+	public int getViralLoad() {
+		return viralLoad;
+	}
+
+	public void setViralLoad(int viralLoad) {
+		this.viralLoad = viralLoad;
 	}
 }

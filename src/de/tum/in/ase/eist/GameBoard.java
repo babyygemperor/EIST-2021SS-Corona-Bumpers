@@ -2,6 +2,7 @@ package de.tum.in.ase.eist;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import de.tum.in.ase.eist.audio.AudioPlayerInterface;
 import de.tum.in.ase.eist.car.Car;
@@ -74,13 +75,42 @@ public class GameBoard {
 	 */
 
 	private void createCars() {
+		int random;
+		Random randomGenerator = new Random();
+		SlowCar slowCar;
+		FastCar fastCar;
+		CovidCar covidCar;
+
 		for (int i = 0; i < NUMBER_OF_SLOW_CARS; i++) {
-			this.cars.add(new SlowCar(this.size));
+			random = randomGenerator.nextInt(100);
+			slowCar = new SlowCar(this.size);
+
+			if (random < 65)
+				slowCar.setWearingMask(true);
+
+			slowCar.setViralLoad(0);
+
+			this.cars.add(slowCar);
+
 		}
 		for (int i = 0; i < NUMBER_OF_TESLA_CARS; i++) {
-			this.cars.add(new FastCar(this.size));
+			random = randomGenerator.nextInt(100);
+			fastCar = new FastCar(this.size);
+
+			if (random < 45)
+				fastCar.setWearingMask(true);
+
+			fastCar.setViralLoad(0);
+			this.cars.add(fastCar);
 		}
-		this.cars.add(new CovidCar(this.size));
+
+		covidCar = new CovidCar(this.size);
+		covidCar.setInfected(true);
+		covidCar.setWearingMask(false);
+
+		covidCar.setViralLoad(new Random().nextInt(69) + 50);
+
+		this.cars.add(covidCar);
 	}
 
 	public Dimension2D getSize() {
@@ -135,6 +165,7 @@ public class GameBoard {
 	/**
 	 * Updates the position of each car.
 	 */
+
 	public void update() {
 		moveCars();
 	}
@@ -193,7 +224,6 @@ public class GameBoard {
 				continue;
 			}
 
-			// TODO Backlog Item 16: Add a new collision type
 			/*
 			 * Hint: Make sure to create a subclass of the class Collision and store it in
 			 * the new Collision package. Create a new collision object and check if the
@@ -202,7 +232,7 @@ public class GameBoard {
 
 			Collision collision = new Collision(player.getCar(), car);
 
-			Collision collision1 = new VirusCollision(player.getCar(), car);
+			Collision virusCollision = new VirusCollision(player.getCar(), car);
 
 			if (collision.isCrash()) {
 				Car winner = collision.evaluate();
@@ -219,18 +249,22 @@ public class GameBoard {
 
 			}
 
-			if (collision1.isCrash()) {
-				Car winner = collision1.evaluate();
-				Car loser = collision1.evaluateLoser();
-				printWinner(winner);
-				loserCars.add(loser);
+			if (virusCollision.isCrash() && (player.getCar().isInfected() || car.isInfected())) {
+				Car winner = virusCollision.evaluate();
+				Car loser = virusCollision.evaluateLoser();
 
-				this.audioPlayer.playCrashSound();
+				if (winner != null) {
+					printWinner(winner);
 
-				loser.crunch();
+					loserCars.add(loser);
 
-				if (isWinner())
-					gameOutcome = GameOutcome.WON;
+					this.audioPlayer.playCrashSound();
+
+					loser.crunch();
+
+					if (isWinner())
+						gameOutcome = GameOutcome.WON;
+				}
 
 			}
 		}

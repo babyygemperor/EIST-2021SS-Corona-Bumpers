@@ -16,4 +16,5 @@ public class FastCar extends Car {
 		setRandomSpeed();
 		setIconLocation(FAST_CAR_IMAGE_FILE);
 	}
+
 }

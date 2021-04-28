@@ -26,6 +26,10 @@ public class CovidCar extends Car {
         setMaxSpeed(MAX_SPEED_COVID_CAR);
         setRandomSpeed();
         setIconLocation(COVID_CAR_IMAGE_FILE);
+
+        super.setInfected(true);
+        super.setWearingMask(false);
+        super.setViralLoad(69);
     }
 
     @Override
