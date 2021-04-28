@@ -9,6 +9,7 @@ import de.tum.in.ase.eist.car.CovidCar;
 import de.tum.in.ase.eist.car.FastCar;
 import de.tum.in.ase.eist.car.SlowCar;
 import de.tum.in.ase.eist.collision.Collision;
+import de.tum.in.ase.eist.collision.VirusCollision;
 
 /**
  * Creates all car objects, detects collisions, updates car positions, notifies
@@ -201,6 +202,8 @@ public class GameBoard {
 
 			Collision collision = new Collision(player.getCar(), car);
 
+			Collision collision1 = new VirusCollision(player.getCar(), car);
+
 			if (collision.isCrash()) {
 				Car winner = collision.evaluate();
 				Car loser = collision.evaluateLoser();
@@ -211,10 +214,20 @@ public class GameBoard {
 
 				loser.crunch();
 
-				/*
-				 * Hint: you should set the attribute gameOutcome accordingly. Use 'isWinner()'
-				 * below for your implementation
-				 */
+				if (isWinner())
+					gameOutcome = GameOutcome.WON;
+
+			}
+
+			if (collision1.isCrash()) {
+				Car winner = collision1.evaluate();
+				Car loser = collision1.evaluateLoser();
+				printWinner(winner);
+				loserCars.add(loser);
+
+				this.audioPlayer.playCrashSound();
+
+				loser.crunch();
 
 				if (isWinner())
 					gameOutcome = GameOutcome.WON;
