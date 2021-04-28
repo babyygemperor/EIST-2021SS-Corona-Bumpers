@@ -5,6 +5,7 @@ import java.util.List;
 
 import de.tum.in.ase.eist.audio.AudioPlayerInterface;
 import de.tum.in.ase.eist.car.Car;
+import de.tum.in.ase.eist.car.CovidCar;
 import de.tum.in.ase.eist.car.FastCar;
 import de.tum.in.ase.eist.car.SlowCar;
 import de.tum.in.ase.eist.collision.Collision;
@@ -70,6 +71,7 @@ public class GameBoard {
 	 * Creates as many cars as specified by {@link #NUMBER_OF_SLOW_CARS} and adds
 	 * them to the cars list.
 	 */
+
 	private void createCars() {
 		// TODO Backlog Item 6: Add a new car type
 		for (int i = 0; i < NUMBER_OF_SLOW_CARS; i++) {
@@ -78,6 +80,7 @@ public class GameBoard {
 		for (int i = 0; i < NUMBER_OF_TESLA_CARS; i++) {
 			this.cars.add(new FastCar(this.size));
 		}
+		this.cars.add(new CovidCar(this.size));
 	}
 
 	public Dimension2D getSize() {

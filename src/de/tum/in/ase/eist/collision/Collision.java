@@ -52,6 +52,7 @@ public class Collision {
 		Point2D p2 = this.car2.getPosition();
 
 		Car winnerCar = null;
+
 		if (p1.getX() > p2.getX()) {
 			winnerCar = this.car2;
 		} else {
