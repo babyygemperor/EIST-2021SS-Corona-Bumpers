@@ -88,6 +88,7 @@ public class GameBoard {
 
 
 		this.covidCar = new CovidCar(this.size);
+
 		this.covidCar.setInfected(true);
 		this.covidCar.setWearingMask(false);
 

@@ -9,6 +9,7 @@ public class CovidCar extends Car {
 
     private static final int MIN_SPEED_COVID_CAR = 6;
     private static final int MAX_SPEED_COVID_CAR = 9;
+    private static final int DEFAULT_VIRAL_LOAD = 690420;
 
     /**
      * Constructor, taking the maximum coordinates of the game board. Each car gets
@@ -29,7 +30,7 @@ public class CovidCar extends Car {
 
         super.setInfected(true);
         super.setWearingMask(false);
-        super.setViralLoad(690420);
+        super.setViralLoad(DEFAULT_VIRAL_LOAD);
     }
 
     @Override
