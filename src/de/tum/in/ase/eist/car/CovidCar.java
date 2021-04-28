@@ -37,20 +37,4 @@ public class CovidCar extends Car {
         super.drive(gameBoardSize);
     }
 
-    @Override
-    protected void refreshIconInfection(int infectionLevel) {
-        if (infectionLevel < 800000 && infectionLevel >= 600000) {
-            COVID_CAR_IMAGE_FILE = "coronavirus_80.png";
-        } else if (infectionLevel < 600000 && infectionLevel >= 400000) {
-            COVID_CAR_IMAGE_FILE = "coronavirus_60.png";
-        } else if (infectionLevel < 400000 && infectionLevel >= 200000) {
-            COVID_CAR_IMAGE_FILE = "coronavirus_40.png";
-        } else if (infectionLevel < 200000 ) {
-            COVID_CAR_IMAGE_FILE = "coronavirus_20.png";
-        } else {
-            COVID_CAR_IMAGE_FILE = "coronavirus.png";
-        }
-
-        setIconLocation(COVID_CAR_IMAGE_FILE);
-    }
 }

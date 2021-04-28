@@ -231,7 +231,12 @@ public class GameBoard {
 			}
 
 			if (!(car instanceof CovidCar)) {
-				car.setViralLoad(car.getViralLoad() - 2000);
+				if (car.getViralLoad() > 0) {
+					car.setViralLoad(car.getViralLoad() - 2000);
+					if (car.getViralLoad() < 0)
+						car.setViralLoad(0);
+				}
+
 				if (car.getViralLoad() > 2000000) {
 					this.loserCars.add(car);
 					printDeath(car);
@@ -317,14 +322,13 @@ public class GameBoard {
 	}
 
 	private void printInfection(Car winner, Car loser) {
-		if (winner == this.player.getCar()) {
-			System.out.println("The player got infected with COVID-19 from " + loser.getClass().getSimpleName()
-					+ ", current viral load" + winner.getViralLoad());
+		if (loser == this.player.getCar()) {
+			System.out.println("The player got infected with COVID-19 from " + winner.getClass().getSimpleName()
+					+ ", current viral load : " + loser.getViralLoad());
 		} else if (winner != null && loser != null) {
-			System.out.println(winner.getClass().getSimpleName() + " got infected from " + loser.getClass().getSimpleName()
-					+ ", current viral load" + winner.getViralLoad());
-		} else {
+			System.out.println(loser.getClass().getSimpleName() + " got infected from " + winner.getClass().getSimpleName()
+					+ ", current viral load : " + loser.getViralLoad());
+		} else
 			System.err.println("Something went wrong");
-		}
 	}
 }
