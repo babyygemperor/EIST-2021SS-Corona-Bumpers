@@ -73,7 +73,6 @@ public class GameBoard {
 	 */
 
 	private void createCars() {
-		// TODO Backlog Item 6: Add a new car type
 		for (int i = 0; i < NUMBER_OF_SLOW_CARS; i++) {
 			this.cars.add(new SlowCar(this.size));
 		}
