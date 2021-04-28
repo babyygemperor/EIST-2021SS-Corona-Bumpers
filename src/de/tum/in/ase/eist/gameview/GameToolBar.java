@@ -1,6 +1,5 @@
 package de.tum.in.ase.eist.gameview;
 
-import de.tum.in.ase.eist.car.CovidCar;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.text.Text;
@@ -10,11 +9,15 @@ import java.util.Optional;
 /**
  * This class visualizes the tool bar with start and stop buttons above the game board.
  */
+
 public class GameToolBar extends ToolBar {
 	private final Button start;
 	private final Button stop;
 	private final Text textField;
 	private final Text virusViralLoad;
+
+	private static final double ROUND_OFF_CONSTANT = 100d;
+
 
 	public GameToolBar() {
 		this.start = new Button("Start");
@@ -31,8 +34,8 @@ public class GameToolBar extends ToolBar {
 	 */
 
 	public void refreshText(GameBoardUI gameBoardUI) {
-		this.textField.setText("Viral Load on you = " + (double)Math.round(gameBoardUI.getGameBoard().getPlayerCar().getViralLoad() * 100d) / 100d);
-		this.virusViralLoad.setText("Virus potency =  " + (double)Math.round(gameBoardUI.getGameBoard().getCovidCar().getViralLoad() * 100d) / 100d);
+		this.textField.setText("Viral Load on you = " + (double)Math.round(gameBoardUI.getGameBoard().getPlayerCar().getViralLoad() * ROUND_OFF_CONSTANT) / ROUND_OFF_CONSTANT);
+		this.virusViralLoad.setText("Virus potency =  " + (double)Math.round(gameBoardUI.getGameBoard().getCovidCar().getViralLoad() * ROUND_OFF_CONSTANT) / ROUND_OFF_CONSTANT);
 	}
 
 	public void initializeActions(GameBoardUI gameBoardUI) {

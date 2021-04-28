@@ -9,6 +9,7 @@ import javafx.scene.media.MediaPlayer;
 /**
  * This class handles the background music played during the game using a JavaFX {@link MediaPlayer}.
  */
+
 public class AudioPlayer implements AudioPlayerInterface {
 
 	//Changed music file to personal liking: For more details : See bit.do/YeetYeet

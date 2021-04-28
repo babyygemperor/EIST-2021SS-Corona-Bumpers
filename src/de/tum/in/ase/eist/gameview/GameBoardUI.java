@@ -34,6 +34,9 @@ public class GameBoardUI extends Canvas {
 	private static final int DEFAULT_HEIGHT = 300;
 	private static final Dimension2D DEFAULT_SIZE = new Dimension2D(DEFAULT_WIDTH, DEFAULT_HEIGHT);
 
+	private static final double ROUND_OFF_CONSTANT = 100d;
+
+
 	public static Dimension2D getPreferredSize() {
 		return DEFAULT_SIZE;
 	}
@@ -152,7 +155,7 @@ public class GameBoardUI extends Canvas {
 				showAsyncAlert("Congratulations! You won!!");
 				this.stopGame();
 			} else if (this.gameBoard.getGameOutcome() == GameOutcome.LOST_COVID) {
-				showAsyncAlert("YOU DIED OF COVID 19!!! Viral load : " + (double)Math.round(gameBoard.getPlayerCar().getViralLoad() * 100d) / 100d);
+				showAsyncAlert("YOU DIED OF COVID 19!!! Viral load : " + (double)Math.round(gameBoard.getPlayerCar().getViralLoad() * ROUND_OFF_CONSTANT) / ROUND_OFF_CONSTANT);
 				this.stopGame();
 			}
 			paint();

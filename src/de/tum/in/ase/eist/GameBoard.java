@@ -21,6 +21,24 @@ public class GameBoard {
 	private static final int NUMBER_OF_SLOW_CARS = 5;
 	private static final int NUMBER_OF_TESLA_CARS = 2;
 
+	private static final double ROUND_OFF_CONSTANT = 100d;
+	private static final int COVID_POTENCY_SEED = 690420;
+	private static final double COVID_POTENCY_OFFSET = 100000.0;
+	private static final int STATISTICS_SEED = 100;
+	private static final int SLOW_CAR_MASK_RATE = 65;
+	private static final int FAST_CAR_MASK_RATE = 45;
+
+	private static final double PLAYER_COVID_HEALING_RATE = 0.999;
+	private static final double PLAYER_COVID_VIRAL_LOAD_THRESHOLD = 300000.0;
+	private static final double CAR_HEALING_RATE = 0.98;
+	private static final double CAR_MASKED_HEALING_RATE = 0.85;
+	private static final double CAR_COVID_VIRAL_LOAD_THRESHOLD = 300000.0;
+	private static final double COVID_CAR_DECAY_RATE = 0.99;
+	private static final double COVID_CAR_FATALITY_THRESHOLD = 500.0;
+	private static final double INFECTIVITY_RATE = 20.0;
+
+
+
 	/**
 	 * List of all active cars, does not contain player car.
 	 */
@@ -73,7 +91,7 @@ public class GameBoard {
 		this.covidCar.setInfected(true);
 		this.covidCar.setWearingMask(false);
 
-		this.covidCar.setViralLoad(new Random().nextInt(690420) + 100000.0);
+		this.covidCar.setViralLoad(new Random().nextInt(COVID_POTENCY_SEED) + COVID_POTENCY_OFFSET);
 
 		this.cars.add(covidCar);
 
@@ -92,10 +110,10 @@ public class GameBoard {
 		FastCar fastCar;
 
 		for (int i = 0; i < NUMBER_OF_SLOW_CARS; i++) {
-			random = randomGenerator.nextInt(100);
+			random = randomGenerator.nextInt(STATISTICS_SEED);
 			slowCar = new SlowCar(this.size);
 
-			if (random < 65)
+			if (random < SLOW_CAR_MASK_RATE)
 				slowCar.setWearingMask(true);
 
 			slowCar.setViralLoad(0);
@@ -105,10 +123,10 @@ public class GameBoard {
 		}
 
 		for (int i = 0; i < NUMBER_OF_TESLA_CARS; i++) {
-			random = randomGenerator.nextInt(100);
+			random = randomGenerator.nextInt(STATISTICS_SEED);
 			fastCar = new FastCar(this.size);
 
-			if (random < 45)
+			if (random < FAST_CAR_MASK_RATE)
 				fastCar.setWearingMask(true);
 
 			fastCar.setViralLoad(0.0);
@@ -225,9 +243,9 @@ public class GameBoard {
 		if (player.getCar().isCrunched())
 			gameOutcome = GameOutcome.LOST;
 
-		player.getCar().setViralLoad(player.getCar().getViralLoad() * 0.999);
+		player.getCar().setViralLoad(player.getCar().getViralLoad() * PLAYER_COVID_HEALING_RATE);
 
-		if (player.getCar().getViralLoad() > 300000.0)
+		if (player.getCar().getViralLoad() > PLAYER_COVID_VIRAL_LOAD_THRESHOLD)
 			gameOutcome = GameOutcome.LOST_COVID;
 
 		if (allCarsCrunched())
@@ -242,18 +260,18 @@ public class GameBoard {
 
 			if (!(car instanceof CovidCar)) {
 				if (car.isWearingMask())
-					car.setViralLoad(car.getViralLoad() * 0.85);
+					car.setViralLoad(car.getViralLoad() * CAR_MASKED_HEALING_RATE);
 				else
-					car.setViralLoad(car.getViralLoad() * 0.98);
-				if (car.getViralLoad() > 3000000.0) {
+					car.setViralLoad(car.getViralLoad() * CAR_HEALING_RATE);
+				if (car.getViralLoad() > CAR_COVID_VIRAL_LOAD_THRESHOLD) {
 					this.loserCars.add(car);
 					printDeath(car);
 					car.crunch();
 				}
 			} else {
-				car.setViralLoad(car.getViralLoad() * 0.99);
+				car.setViralLoad(car.getViralLoad() * COVID_CAR_DECAY_RATE);
 
-				if (car.getViralLoad() < 500.0) {
+				if (car.getViralLoad() < COVID_CAR_FATALITY_THRESHOLD) {
 					car.crunch();
 
 					this.loserCars.add(car);
@@ -310,9 +328,9 @@ public class GameBoard {
 				Car loser = collision.evaluateLoser();
 
 				if (winner == player.getCar()) {
-					player.getCar().setViralLoad(loser.getViralLoad()/20 + player.getCar().getViralLoad());
+					player.getCar().setViralLoad(loser.getViralLoad()/INFECTIVITY_RATE + player.getCar().getViralLoad());
 				} else if (loser == player.getCar()) {
-					player.getCar().setViralLoad(winner.getViralLoad()/20 + player.getCar().getViralLoad());
+					player.getCar().setViralLoad(winner.getViralLoad()/INFECTIVITY_RATE + player.getCar().getViralLoad());
 				}
 
 				if (winner != null) {
@@ -375,14 +393,14 @@ public class GameBoard {
 
 	private void printInfection(Car winner, Car loser) {
 		if (winner == player.getCar())
-			System.out.println("\tPlayerCar with a viral load of " + (double)Math.round(winner.getViralLoad() * 100d) / 100d
-					+ " and " + (double)Math.round(loser.getViralLoad() * 100d) / 100d + " with a viral load of " + loser.getViralLoad() + " were in contact!!!");
+			System.out.println("\tPlayerCar with a viral load of " + (double)Math.round(winner.getViralLoad() * ROUND_OFF_CONSTANT) / ROUND_OFF_CONSTANT
+					+ " and " + (double)Math.round(loser.getViralLoad() * ROUND_OFF_CONSTANT) / ROUND_OFF_CONSTANT + " with a viral load of " + loser.getViralLoad() + " were in contact!!!");
 		else if (loser == player.getCar())
-			System.out.println("\t" + winner.getClass().getSimpleName() + " with a viral load of " + (double)Math.round(winner.getViralLoad() * 100d) / 100d
-					+ " and PlayerCar with a viral load of " + (double)Math.round(loser.getViralLoad() * 100d) / 100d + " were in contact!!!");
+			System.out.println("\t" + winner.getClass().getSimpleName() + " with a viral load of " + (double)Math.round(winner.getViralLoad() * ROUND_OFF_CONSTANT) / ROUND_OFF_CONSTANT
+					+ " and PlayerCar with a viral load of " + (double)Math.round(loser.getViralLoad() * ROUND_OFF_CONSTANT) / ROUND_OFF_CONSTANT + " were in contact!!!");
 		else
-			System.out.println("\t" + winner.getClass().getSimpleName() + " with a viral load of " + (double)Math.round(winner.getViralLoad() * 100d) / 100d
-				+ " and " + loser.getClass().getSimpleName() + " with a viral load of " + (double)Math.round(loser.getViralLoad() * 100d) / 100d + " were in contact!!!");
+			System.out.println("\t" + winner.getClass().getSimpleName() + " with a viral load of " + (double)Math.round(winner.getViralLoad() * ROUND_OFF_CONSTANT) / ROUND_OFF_CONSTANT
+				+ " and " + loser.getClass().getSimpleName() + " with a viral load of " + (double)Math.round(loser.getViralLoad() * ROUND_OFF_CONSTANT) / ROUND_OFF_CONSTANT + " were in contact!!!");
 	}
 
 }
