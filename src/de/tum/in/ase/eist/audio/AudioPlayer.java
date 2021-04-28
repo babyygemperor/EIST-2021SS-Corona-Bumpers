@@ -22,7 +22,6 @@ public class AudioPlayer implements AudioPlayerInterface {
 	//
 	private static final String INFECTED_SOUND_FILE = "coronavirus.wav";
 
-	private static final double BACKGROUND_MUSIC_VOLUME = 0.6;
 	private static final double CRASH_SOUND_VOLUME = 0.5;
 	private static final double INFECTED_SOUND_VOLUME = 1;
 

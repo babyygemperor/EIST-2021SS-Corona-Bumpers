@@ -10,6 +10,8 @@ import java.util.Optional;
  * This class visualizes the tool bar with start and stop buttons above the game board.
  */
 
+
+
 public class GameToolBar extends ToolBar {
 	private final Button start;
 	private final Button stop;
@@ -39,7 +41,23 @@ public class GameToolBar extends ToolBar {
 	}
 
 	public void initializeActions(GameBoardUI gameBoardUI) {
-		this.start.setOnAction(event -> gameBoardUI.startGame());
+		this.start.setOnAction(event -> {
+			Alert alert = new Alert(AlertType.CONFIRMATION, """
+					THIS NEW MODIFIED VERSION IS VERY CONTEMPORARY AND APT\s
+					Some cars are wearing a mask, some aren't, and there's a virus roaming around. THE MORE THE CONTACT, THE MORE THE VIRUS SPREADS
+					You die if your viral load is more than 300K
+					AVOID THE VIRUS AND STILL WIN BUMPER CARS, GOOD LUCK""", ButtonType.YES);
+			alert.setTitle("Preface");
+			alert.setHeaderText("2020/21 BUMPER CARS");
+
+			Optional<ButtonType> result = alert.showAndWait();
+
+			if (result.isPresent() && result.get() == ButtonType.YES)
+				gameBoardUI.startGame();
+			else {
+				gameBoardUI.stopGame();
+			}
+		});
 
 		this.stop.setOnAction(event -> {
 			// stop the game while the alert is shown

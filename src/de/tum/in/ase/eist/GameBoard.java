@@ -12,6 +12,11 @@ import de.tum.in.ase.eist.car.SlowCar;
 import de.tum.in.ase.eist.collision.Collision;
 import de.tum.in.ase.eist.collision.VirusCollision;
 
+//TODO README!!! Have fun in this game, obviously it can be improved by fixing the multiple collisions because of how square/rectangle physics work here
+//and by showing everything on the tool bar. I had the idea of turning cars red the more infected they are, but the game doesn't allow me to change pictures/edit them
+//while it's already running. I thought I could show the masked and the unmasked cars like that but it was too much work so I left it.
+//Instead I chose on showing a few basic stats on the tool bar. Anyways, enjoy and have fun
+
 /**
  * Creates all car objects, detects collisions, updates car positions, notifies
  * player about victory or defeat.
