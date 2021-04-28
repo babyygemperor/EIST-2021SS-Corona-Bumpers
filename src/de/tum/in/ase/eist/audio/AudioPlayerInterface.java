@@ -28,4 +28,6 @@ public interface AudioPlayerInterface {
 	 */
 	void playCrashSound();
 
+	void playInfectedSound();
+
 }

@@ -11,16 +11,19 @@ import javafx.scene.media.MediaPlayer;
  */
 public class AudioPlayer implements AudioPlayerInterface {
 
-	private static final String BACKGROUND_MUSIC_FILE = "Music.wav";
+	//Changed music file to personal liking: For more details : See bit.do/YeetYeet
+	private static final String BACKGROUND_MUSIC_FILE = "music.mp3";
 	private static final String CRASH_SOUND_FILE = "Crash.wav";
 
 	//NOTE: THIS AUDIO TRACK IS TAKEN FROM PLAGUES.INC, I DO NOT OWN THIS TRACK
 	private static final String INFECTED_SOUND_FILE = "infected.wav";
 
 	private static final double CRASH_SOUND_VOLUME = 0.5;
+	private static final double INFECTED_SOUND_VOLUME = 0.4;
 
 	private final MediaPlayer musicPlayer;
 	private final AudioClip crashPlayer;
+	private final AudioClip infectedPlayer;
 
 	/**
 	 * Constructs a new AudioPlayer by directly loading the background music and
@@ -29,6 +32,7 @@ public class AudioPlayer implements AudioPlayerInterface {
 	public AudioPlayer() {
 		this.musicPlayer = new MediaPlayer(loadAudioFile(BACKGROUND_MUSIC_FILE));
 		this.crashPlayer = new AudioClip(convertNameToUrl(CRASH_SOUND_FILE));
+		this.infectedPlayer = new AudioClip(convertNameToUrl(INFECTED_SOUND_FILE));
 	}
 
 	@Override
@@ -56,6 +60,11 @@ public class AudioPlayer implements AudioPlayerInterface {
 	@Override
 	public void playCrashSound() {
 		crashPlayer.play(CRASH_SOUND_VOLUME);
+	}
+
+	@Override
+	public void playInfectedSound() {
+		infectedPlayer.play(INFECTED_SOUND_VOLUME);
 	}
 
 	private Media loadAudioFile(String fileName) {

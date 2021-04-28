@@ -275,8 +275,10 @@ public class GameBoard {
 						Car winner = virusCollision.evaluate();
 						Car loser = virusCollision.evaluateLoser();
 
-						if (winner != null)
+						if (winner != null) {
+							this.audioPlayer.playInfectedSound();
 							printInfection(winner, loser);
+						}
 
 						if (isWinner())
 							gameOutcome = GameOutcome.WON;
@@ -313,8 +315,10 @@ public class GameBoard {
 					player.getCar().setViralLoad(winner.getViralLoad()/20 + player.getCar().getViralLoad());
 				}
 
-				if (winner != null)
+				if (winner != null) {
+					this.audioPlayer.playInfectedSound();
 					printInfection(winner, loser);
+				}
 
 				if (isWinner())
 					gameOutcome = GameOutcome.WON;
