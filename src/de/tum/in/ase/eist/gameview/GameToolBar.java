@@ -46,13 +46,13 @@ public class GameToolBar extends ToolBar {
 					THIS NEW MODIFIED VERSION IS VERY CONTEMPORARY AND APT\s
 					Some cars are wearing a mask, some aren't, and there's a virus roaming around. THE MORE THE CONTACT, THE MORE THE VIRUS SPREADS
 					You die if your viral load is more than 300K
-					AVOID THE VIRUS AND STILL WIN BUMPER CARS, GOOD LUCK""", ButtonType.YES);
+					AVOID THE VIRUS AND STILL WIN BUMPER CARS, GOOD LUCK""", ButtonType.OK);
 			alert.setTitle("Preface");
 			alert.setHeaderText("2020/21 BUMPER CARS");
 
 			Optional<ButtonType> result = alert.showAndWait();
 
-			if (result.isPresent() && result.get() == ButtonType.YES)
+			if (result.isPresent() && result.get() == ButtonType.OK)
 				gameBoardUI.startGame();
 			else {
 				gameBoardUI.stopGame();
