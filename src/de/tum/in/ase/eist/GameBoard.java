@@ -13,7 +13,8 @@ import de.tum.in.ase.eist.collision.Collision;
 import de.tum.in.ase.eist.collision.VirusCollision;
 
 //TODO README!!! Have fun in this game, obviously it can be improved by fixing the multiple collisions because of how square/rectangle physics work here
-//and by showing everything on the tool bar. I had the idea of turning cars red the more infected they are, but the game doesn't allow me to change pictures/edit them
+//Which I turned into my advantage, as that is how long you're in contact with the virus. I also improved the tool bar by adding basic statistics on it
+//I had the idea of turning cars red the more infected they are, but the game doesn't allow me to change pictures/edit them
 //while it's already running. I thought I could show the masked and the unmasked cars like that but it was too much work so I left it.
 //Instead I chose on showing a few basic stats on the tool bar. Anyways, enjoy and have fun
 
@@ -37,7 +38,7 @@ public class GameBoard {
 	private static final double PLAYER_COVID_VIRAL_LOAD_THRESHOLD = 300000.0;
 	private static final double CAR_HEALING_RATE = 0.98;
 	private static final double CAR_MASKED_HEALING_RATE = 0.85;
-	private static final double CAR_COVID_VIRAL_LOAD_THRESHOLD = 300000.0;
+	private static final double CAR_COVID_VIRAL_LOAD_THRESHOLD = 1000000.0;
 	private static final double COVID_CAR_DECAY_RATE = 0.99;
 	private static final double COVID_CAR_FATALITY_THRESHOLD = 500.0;
 	private static final double INFECTIVITY_RATE = 20.0;
